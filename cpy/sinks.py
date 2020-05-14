@@ -19,3 +19,6 @@ class Ground(Node):
 
     def draw_value(self, *args):
         pass
+
+    def ports(self):
+        return (0,1)

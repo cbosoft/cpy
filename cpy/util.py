@@ -67,3 +67,19 @@ def arrow(start, length=None, end=None, rotation=0, inline=False, backwards=Fals
     x, y = rot(x, y, rotation)
     x, y = trf(x, y, *start)
     return list(zip(x, y))
+def arc(centre, radius, start, end, inline=False):
+    thetas = np.linspace(start, end)
+    
+    arc = list()
+    for theta in thetas:
+        x, y = rot(0, radius, theta)
+        arc.append( [x,y] )
+
+    if not inline:
+        arc.insert(0, null)
+        arc.append(null)
+
+    x, y = zip(*arc)
+    return trf(x, y, *centre)
+
+

@@ -29,5 +29,4 @@ class LED(Diode):
                 (0.5, 1.1), (0.3, 1.3), (0.1, 1.1),
             ]
         pts.extend(apts)
-        x, y = zip(*pts)
-        return trf(x, y, self.x, self.y)
+        return pts

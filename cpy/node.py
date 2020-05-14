@@ -1,3 +1,4 @@
+import numpy as np
 from matplotlib import pyplot as plt
 
 from cpy.util import rot, trf, null
@@ -26,8 +27,13 @@ class Node:
         return [null]
 
     def draw(self):
-        x, y = self.data()
-        plt.plot(*rot(x, y, self.angle), **self.plot_kws)
+        points = self.data()
+        if not points:
+            return
+        x, y = zip(*points)
+        x, y = self.rot(x, y)
+        x, y = self.trf(x, y)
+        plt.plot(x, y, **self.plot_kws)
         if self.label:
             self.draw_label(x, y)
         if self.value:

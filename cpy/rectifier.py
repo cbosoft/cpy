@@ -14,8 +14,21 @@ class Diode(Node):
         return self.x-1, self.y
 
     def data(self):
-        pts = [
-                (-1,1), (-1,-1), (np.nan, np.nan), (-1,0), (1,1), (1,-1), (-1,0), (np.nan,np.nan), (1, 0)
+        return [
+                null,
+                (-1,1),
+                (-1,-1),
+                null,
+                (-1,0),
+                (1,1),
+                (1,-1),
+                (-1,0),
+                null,
+                (1, 0),
+                (1.5,0),
+                null,
+                (-1.0,0),
+                (-1.5,0),
+                null
             ]
-        return list(zip(*pts))
 

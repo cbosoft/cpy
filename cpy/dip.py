@@ -53,9 +53,8 @@ class DIPn(Node):
         for cx, cy in zip(hcx, hcy):
             pts.append([cx+ll,-cy])
 
-        x, y = zip(*pts)
+        return pts
 
-        return trf(x, y, self.x, self.y)
 
 class DIP6(DIPn):
 

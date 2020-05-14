@@ -1,17 +1,13 @@
-import numpy as np
-
 from cpy.node import Node
+from cpy.util import trf, rot, null
 
 class Diode(Node):
 
-    def __init__(self, x, y, rotation=0):
-        super().__init__(x, y, rotation)
-
-    def anode(self):
-        return self.x+1, self.y
-
-    def cathode(self):
-        return self.x-1, self.y
+    def ports(self):
+        return {
+                'anode': (1.5, 0),
+                'cathode': (-1.5, 0)
+            }
 
     def data(self):
         return [

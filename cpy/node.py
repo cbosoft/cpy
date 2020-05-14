@@ -20,8 +20,28 @@ class Node:
     def trf(self, x, y):
         return trf(x, y, self.x, self.y)
 
-    def centre(self):
-        return self.x, self.y
+    def trot(self, x, y):
+        return self.trf(*self.rot(x, y))
+
+    def ports(self):
+        return (0,0)
+
+    def __getitem__(self, key):
+        ports = self.ports()
+
+        rv = None
+        if isinstance(ports, (dict, list)):
+            rv = ports[key]
+        elif isinstance(ports, tuple):
+            assert len(ports) == 2
+            rv = ports
+        else:
+            raise Exception(f'node port get expected dict, list or tuple, got {type(ports)}')
+
+        assert len(rv) == 2
+
+        return self.trot(*rv)
+
 
     def data(self):
         return [null]

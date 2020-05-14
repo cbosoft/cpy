@@ -22,3 +22,48 @@ def trf(x, y, ox, oy):
     return np.add(x, ox), np.add(y, oy)
 
 null = (np.nan, np.nan)
+def arrow(start, length=None, end=None, rotation=0, inline=False, backwards=False):
+
+    if length is None and end is None:
+        raise Exception("arrow needs either a length or an end")
+
+    if end is not None:
+        l = np.sqrt(np.sum(np.power(np.subtract(start, end), 2.0)))
+        r = angle_between(start, end)-90
+        dx, dy = np.subtract(end, start)
+
+        if dx < 0 and dy < 0:
+            r -= 180
+        elif dy < 0 or dy < 0:
+            r -= 90
+
+        return arrow(start, length=l, rotation=r, inline=inline, backwards=backwards)
+
+    l = length
+
+    al = 0.3*l
+    aw = 0.15
+
+    pts = [
+            (0, 0),
+            (0, l),
+            (-aw, l-al),
+            null,
+            (0, l),
+            (aw, l-al),
+            null
+        ]
+
+    if not inline:
+        pts.insert(0, null)
+    else:
+        pts.append( (0, l) )
+
+    x, y = zip(*pts)
+
+    if backwards:
+        y = np.add(l, np.multiply(y, -1))
+
+    x, y = rot(x, y, rotation)
+    x, y = trf(x, y, *start)
+    return list(zip(x, y))

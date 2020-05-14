@@ -13,12 +13,16 @@ class Diagram:
     def __enter__(self):
         plt.gca().set_aspect('equal')
         plt.rc('savefig', bbox='tight')
+        plt.rc('lines', linewidth=0.5)
+        plt.rc('text', usetex=True)
+        plt.rc('font', family='sans-serif')
+        plt.rc('text.latex', preamble='\\usepackage{sansmath}\\sansmath{}')
+        plt.axis('off')
         return self
 
     def __exit__(self, *args):
         self.draw()
-        plt.axis('off')
-        plt.savefig(self.name, bbox_to_inches='tight')
+        plt.savefig(self.name)
 
     def connect(self, *points, connection_type='-'):
         self.points.append((np.nan, np.nan))
@@ -37,9 +41,10 @@ class Diagram:
         return o
 
     def draw(self):
-        for o in self.objects:
-            o.draw()
 
         if self.points:
             x, y = zip(*self.points)
             plt.plot(x, y, **self.wire_kws)
+
+        for o in self.objects:
+            o.draw()

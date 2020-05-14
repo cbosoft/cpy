@@ -1,12 +1,13 @@
 import numpy as np
+from matplotlib import pyplot as plt
 
-from cpy.util import trf, null
+from cpy.util import trf, null, arc
 from cpy.node import Node
 
 class DIPn(Node):
 
-    def __init__(self, x, y, rotation=0, n=1):
-        super().__init__(x, y, rotation)
+    def __init__(self, x, y, n=1, **kwargs):
+        super().__init__(x, y, **kwargs)
         self.n = n
 
     def port(self, index):
@@ -19,7 +20,11 @@ class DIPn(Node):
         else:
             y = -1.5
 
-        return x+self.x,y+self.y
+        return x,y
+
+    def ports(self):
+
+        return [self.port(i) for i in range(2*self.n)]
 
     def data(self):
 
@@ -43,20 +48,15 @@ class DIPn(Node):
                 null,
                 ])
 
-        ll = -h-t
-        r=0.2
-        hcx = np.linspace(0.0,0.25)
-        hcy = np.sqrt(np.subtract(np.power(r, 2.0), np.power(hcx, 2.0)))
-
-        for cx, cy in zip(hcx, hcy):
-            pts.append([cx+ll, cy])
-        for cx, cy in zip(hcx, hcy):
-            pts.append([cx+ll,-cy])
+        pts.extend(zip(*arc( (-h-t,0), 0.2, 0, -180)))
 
         return pts
+
+    def draw_label(self, *args):
+        plt.text(self.x, self.y, self.label, ha='center', va='center')
 
 
 class DIP6(DIPn):
 
-    def __init__(self, x, y, rotation=0):
-        super().__init__(x, y, rotation=0, n=6)
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs, n=6)

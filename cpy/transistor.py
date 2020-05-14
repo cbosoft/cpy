@@ -1,39 +1,37 @@
-from matplotlib import pyplot as plt
+import numpy as np
 
-from cpy.util import trf, null, arrow, circle
+from cpy.util import trf, null, arrow, circle, arrowhead, angle_between
 from cpy.node import Node
+from cpy.tikz import pic
 
-class TransistorNPN(Node):
+class _TransistorCommon(Node):
 
-    def data(self):
-
+    def paths(self):
         return [
-                null,
-                (1, 2),
-                (1, 1.5),
-                (0,0.5),
-                null,
-                (-0.05,1),
-                (-0.05,-1),
-                null,
-                (0,1),
-                (0,-1),
-                null,
-                *arrow( (0,-0.5), end=(1,-1.5), inline=True),
-                (1,-2),
-                null,
-                (0,0),
-                (-0.5,0)
+                '\\draw (1,2) -- (1,1.5) -- (0,0.6);',
+                '\\draw (1,-2) -- (1,-1.5) -- (0,-0.6);',
+                '\\draw[ultra thick] (0,1.2) -- (0,-1.2);',
             ]
 
-    def base(self):
-        return self.trot(-0.5, 0)
+    def draw_label(self):
+        pic().draw_text(self.x+1.1, self.y+0.4, self.label)
 
-    def collector(self):
-        return self.trot(1, 2)
+    def draw_value(self):
+        pic().draw_text(self.x+1.1, self.y-0.4, self.value)
 
-    def emitter(self):
-        return self.trot(1, -2)
+    def ports(self):
+        return {
+                'collector': (1,2),
+                'emitter': (1,-2)
+            }
+
+class TransistorNPN(_TransistorCommon):
+
+    def paths(self):
+        paths = super().paths()
+        paths.append('\\draw (0,0) -- (-0.5,0);')
+        paths.append(arrowhead([1, -1.5], 225 ))
+        return paths
 
     def ports(self):
         return {
@@ -42,56 +40,23 @@ class TransistorNPN(Node):
                 'emitter': (1,-2)
             }
 
-    def draw_label(self, *args):
-        plt.text(self.x+1.1, self.y+0.4, self.label, ha='center', va='center')
 
-    def draw_value(self, *args):
-        plt.text(self.x+1.1, self.y-0.4, self.value, ha='center', va='center')
+class TransistorPNP(_TransistorCommon):
 
-
-class TransistorPNP(TransistorNPN):
-
-    def data(self):
-        return [
-                null,
-                (1, 2),
-                *arrow( (1,1.5), end=(0,0.5), inline=True),
-                null,
-                (0,1),
-                (0,-1),
-                null,
-                (-0.05,1),
-                (-0.05,-1),
-                null,
-                (1, -2),
-                (1, -1.5),
-                (0, -0.5),
-                null,
-                (0,0),
-                (-0.5,0)
-            ]
+    def paths(self):
+        paths = super().paths()
+        paths.append('\\draw (0,0) -- (-0.5,0);')
+        paths.append(arrowhead([1, 1.5], 315 ))
+        return paths
 
 
 class PhotoTransistor(TransistorNPN):
 
-    def data(self):
+    def paths(self):
+        paths = super().paths()
+        paths.append('\\draw (0.5,0) circle (1.7);')
+        paths.append(arrowhead([-0.9, 1.5], 225, tail=1.0 ))
+        paths.append(arrowhead([-1.2, 1.2], 225, tail=1.0 ))
+        paths.append(arrowhead([1, -1.5], 225 ))
+        return paths
 
-        return [
-                null,
-                (1, 2),
-                (1, 1.5),
-                (0,0.5),
-                null,
-                (-0.05,1),
-                (-0.05,-1),
-                null,
-                (0,1),
-                (0,-1),
-                null,
-                *arrow( (0,-0.5), end=(1,-1.5), inline=True),
-                (1,-2),
-                null,
-                *circle( (0.5,0), 1.7),
-                *arrow( (-0.9, 1.5), length=1.0, rotation=45, backwards=True),
-                *arrow( (-1.2, 1.2), length=1.0, rotation=45, backwards=True),
-            ]

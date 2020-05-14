@@ -1,5 +1,6 @@
 from cpy.node import Node
 from cpy.util import trf, rot, null
+from cpy.tikz import pic
 
 class Diode(Node):
 
@@ -9,22 +10,13 @@ class Diode(Node):
                 'cathode': (-1.5, 0)
             }
 
-    def data(self):
+    def paths(self):
         return [
-                null,
-                (-1,1),
-                (-1,-1),
-                null,
-                (-1,0),
-                (1,1),
-                (1,-1),
-                (-1,0),
-                null,
-                (1, 0),
-                (1.5,0),
-                null,
-                (-1.0,0),
-                (-1.5,0),
-                null
+                '\\draw (-1,1) -- (-1,-1);',
+                '\\draw (-1,0) -- (1,1) -- (1,-1) -- cycle;',
+                '\\draw (1,0) -- (1.5,0);'
+                '\\draw (-1,0) -- (-1.5,0);'
             ]
 
+    def draw_label(self):
+        pic().draw_text(self.x, self.y+1.5, self.label)

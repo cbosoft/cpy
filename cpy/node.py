@@ -1,7 +1,7 @@
 import numpy as np
-from matplotlib import pyplot as plt
 
 from cpy.util import rot, trf, null
+from cpy.tikz import pic
 
 
 class Node:
@@ -42,33 +42,22 @@ class Node:
 
         return self.trot(*rv)
 
-
-    def data(self):
-        return [null]
+    def paths(self):
+        return []
 
     def draw(self):
-        points = self.data()
-        if not points:
-            return
-        x, y = zip(*points)
-        x, y = self.rot(x, y)
-        x, y = self.trf(x, y)
-        plt.plot(x, y, **self.plot_kws)
+        paths = self.paths()
+
+        pic().draw_paths_transformed(paths, shift=(self.x, self.y), rotation=(self.angle))
+
         if self.label:
-            self.draw_label(x, y)
+            self.draw_label()
+
         if self.value:
-            self.draw_value(x, y)
+            self.draw_value()
 
-    def draw_label(self, x, y):
-        minx = np.nanmin(x)
-        maxx = np.nanmax(x)
-        midx = minx + (maxx - minx)*0.5
-        maxy = np.nanmax(y)
-        plt.text(midx, maxy+0.3, self.label, ha='center', va='bottom')
+    def draw_label(self):
+        pic().draw_text(self.x, self.y, self.label, anchor='center')
 
-    def draw_value(self, x, y):
-        minx = np.nanmin(x)
-        maxx = np.nanmax(x)
-        midx = minx + (maxx - minx)*0.5
-        miny = np.nanmin(y)
-        plt.text(midx, miny-0.3, self.value, ha='center', va='top')
+    def draw_value(self):
+        pic().draw_text(self.x, self.y, self.value, anchor='center')

@@ -26,7 +26,6 @@ null = (np.nan, np.nan)
 def angle_between(p1, p2):
 
     theta = np.arccos(np.dot(p1, p2))*180.0/np.pi
-
     return theta
 
 
@@ -122,3 +121,14 @@ def hop(centre, horizontal=False, backwards=False):
         angles = np.add(angles, 180)
 
     return list(zip(*arc(centre, 0.3, *angles, inline=True)))
+
+def arrowhead(centre, rotation=0, tail=None):
+    x, y = centre
+    paths = [
+            '\\begin{scope}[shift={' + f'({x},{y})' + '}, rotate=' + f'{rotation}' + ']',
+            '\\filldraw (0,0) -- (0.15,-0.5) -- (-0.15,-0.5) -- cycle;'
+            '\\end{scope}'
+        ]
+    if tail:
+        paths.insert(1, f'\\draw (0,0) -- (0,{-float(tail)});')
+    return ''.join(paths)

@@ -1,17 +1,21 @@
 from cpy import *
 from cpy.util import arc, hop
+from cpy.tikz import pic
 
 
 if __name__ == "__main__":
 
-
     with Diagram('plot.pdf') as d:
 
-        pv = d.add(Source(0, 0, value='$5\\rm\\,V$'))
+        pv = d.add(Source(0, 0, value='$6\\rm\\,V$'))
         g = d.add(Ground(2, -15))
 
 
-        r1 = d.add(Resistor(2, -5, rotation=-90, value='$10\\rm\\,k\\Omega$'))
+        r1 = d.add(
+                Resistor(2, -5,
+                    rotation=-90,
+                    label='R1',
+                    value='$10\\rm\\,k\\Omega$'))
         n1 = d.add(Node(2, -7.5))
         r2 = d.add(Resistor(2, -10, rotation=-90, value='$10\\rm\\,k\\Omega$'))
         n2 = d.add(Node(2, -12.5))

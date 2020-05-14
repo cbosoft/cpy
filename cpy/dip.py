@@ -1,8 +1,8 @@
 import numpy as np
-from matplotlib import pyplot as plt
 
-from cpy.util import trf, null, arc
+from cpy.util import null
 from cpy.node import Node
+from cpy.tikz import pts2path
 
 class DIPn(Node):
 
@@ -26,7 +26,7 @@ class DIPn(Node):
 
         return [self.port(i) for i in range(2*self.n)]
 
-    def data(self):
+    def paths(self):
 
         h = (self.n-1)/2
         t = 0.5
@@ -48,12 +48,9 @@ class DIPn(Node):
                 null,
                 ])
 
-        pts.extend(zip(*arc( (-h-t,0), 0.2, 0, -180)))
-
-        return pts
-
-    def draw_label(self, *args):
-        plt.text(self.x, self.y, self.label, ha='center', va='center')
+        paths = [pts2path(pts)]
+        paths.append(f'\\draw ({-h-t},0.2) arc(90:-90:0.2);')
+        return paths
 
 
 class DIP6(DIPn):

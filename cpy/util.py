@@ -112,3 +112,13 @@ def arc(centre, radius, start, end, inline=False):
     return trf(x, y, *centre)
 
 
+def hop(centre, horizontal=False, backwards=False):
+
+    angles = [0,-180]
+    if horizontal:
+        angles = np.add(angles, 90)
+
+    if backwards:
+        angles = np.add(angles, 180)
+
+    return list(zip(*arc(centre, 0.3, *angles, inline=True)))

@@ -23,7 +23,7 @@ class Node:
         return self.x, self.y
 
     def data(self):
-        return [self.x], [self.y]
+        return [null]
 
     def draw(self):
         x, y = self.data()

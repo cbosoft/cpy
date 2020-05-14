@@ -1,6 +1,6 @@
 from matplotlib import pyplot as plt
 
-from cpy.util import rot
+from cpy.util import rot, trf, null
 
 
 class Node:
@@ -13,7 +13,13 @@ class Node:
         self.label = label
         self.value = value
 
-    def center(self):
+    def rot(self, x, y):
+        return rot(x, y, self.angle)
+
+    def trf(self, x, y):
+        return trf(x, y, self.x, self.y)
+
+    def centre(self):
         return self.x, self.y
 
     def data(self):

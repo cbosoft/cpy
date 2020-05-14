@@ -67,6 +67,27 @@ def arrow(start, length=None, end=None, rotation=0, inline=False, backwards=Fals
     x, y = rot(x, y, rotation)
     x, y = trf(x, y, *start)
     return list(zip(x, y))
+
+
+def circle(centre, radius):
+    px = np.linspace(0, radius)
+    py = np.sqrt(np.subtract(radius*radius, np.power(px, 2.0)))
+
+    rpx = list(reversed(px))
+    rpy = list(reversed(py))
+
+    nx = -px
+    ny = -py
+
+    rnx = list(reversed(nx))
+    rny = list(reversed(ny))
+
+    cx = [*px, *rpx, *nx, *rnx]
+    cy = [*py, *rny, *ny, *rpy]
+    x, y = trf(cx, cy, *centre)
+    return list(zip(x, y))
+
+
 def arc(centre, radius, start, end, inline=False):
     thetas = np.linspace(start, end)
     

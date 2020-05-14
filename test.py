@@ -6,35 +6,24 @@ if __name__ == "__main__":
 
 
     with Diagram('plot.pdf') as d:
-        led1 = d.add(LED(0, 0, -90))
-        led2 = d.add(LED(5, 0))
-        d.connect(led1['anode'], led2['cathode'], connection_type='-|')
 
-        mc = d.add(DIPn(0, 5, n=8, label='MCP3208'))
-
-        d.connect(led1['cathode'], mc[0], connection_type='-|')
-
-        photo = d.add(PhotoTransistor(10, 3, label='photo1', value='$\\beta 100$'))
-        pnp = d.add(TransistorPNP(15, 3, label='pnp1', value='$\\beta 400$'))
-        npn = d.add(TransistorNPN(20, 3))
+        pv = d.add(Source(0, 0, value='$5\\rm\\,V$'))
+        g = d.add(Ground(2, -15))
 
 
-        n1 = d.add(Node(20, 6))
-        d.connect(n1[0], npn['collector'], connection_type='-|')
-        d.connect(n1[0], pnp['collector'], connection_type='-|')
-        d.connect(n1[0], photo['collector'], connection_type='-|')
+        r1 = d.add(Resistor(2, -5, rotation=-90, value='$10\\rm\\,k\\Omega$'))
+        n1 = d.add(Node(2, -7.5))
+        r2 = d.add(Resistor(2, -10, rotation=-90, value='$10\\rm\\,k\\Omega$'))
+        n2 = d.add(Node(2, -12.5))
 
-        n2 = d.add(Node(20, 8))
-        d.connect(photo.emitter(), *hop([13,6], backwards=True), n2[0], connection_type='-|')
+        t = d.add(TransistorNPN(8, -7.5))
 
-        res = d.add(Resistor(10, -5, value='$20\\rm\\,\\Omega$'))
-        cap = d.add(Capacitor(0, -5, value='$20\\rm\\,F$', label='C1'))
+        m = d.add(Motor(9, -3, rotation=-90))
 
-        g = d.add(Ground(-5, -10))
-
-        s = d.add(Source(0, -10, value='$5\\rm\\,V$'))
-
-
-
-
-
+        d.connect(pv[0], r1['left'], connection_type='-|')
+        d.connect(r1['right'], n1[0], r2['left'] )
+        d.connect(t['base'], n1[0] )
+        d.connect(pv[0], m['left'], connection_type='-|')
+        d.connect(m['right'], t['collector'])
+        d.connect(t['emitter'], n2[0], connection_type='|-')
+        d.connect(r2['right'], n2[0], g[0])

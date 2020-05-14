@@ -6,3 +6,4 @@ from cpy.rectifier import *
 from cpy.light import *
 from cpy.transistor import *
 from cpy.dip import *
+from cpy.em import *

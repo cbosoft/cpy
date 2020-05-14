@@ -1,14 +1,5 @@
-from matplotlib import pyplot as plt
-
-from cpy.node import Node
-from cpy.diagram import Diagram
-from cpy.light import LED
-from cpy.dip import DIPn
-from cpy.transistor import PhotoTransistor, TransistorNPN, TransistorPNP
+from cpy import *
 from cpy.util import arc, hop
-from cpy.discrete import *
-from cpy.sinks import *
-from cpy.source import Source
 
 
 if __name__ == "__main__":

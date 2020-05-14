@@ -22,6 +22,14 @@ def trf(x, y, ox, oy):
     return np.add(x, ox), np.add(y, oy)
 
 null = (np.nan, np.nan)
+
+def angle_between(p1, p2):
+
+    theta = np.arccos(np.dot(p1, p2))*180.0/np.pi
+
+    return theta
+
+
 def arrow(start, length=None, end=None, rotation=0, inline=False, backwards=False):
 
     if length is None and end is None:

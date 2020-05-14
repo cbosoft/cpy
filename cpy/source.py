@@ -10,6 +10,9 @@ class Source(Node):
                 *circle( [0,0], r),
                 null,
                 (r,0),
-                (2.0-r,0),
+                (2.0,0),
                 null
             ]
+
+    def ports(self):
+        return (2.0, 0.0)

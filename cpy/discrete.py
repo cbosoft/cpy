@@ -21,14 +21,14 @@ class Resistor(Node):
                 null
             ]
 
+    def ports(self):
+        return {
+                'left': (-2,0), 'right': (2,0)
+            }
+
     def draw_value(self, *args):
         plt.text(self.x, self.y, self.value, ha='center', va='center')
 
-    def left(self):
-        return self.x-2, self.y
-
-    def right(self):
-        return self.x+2, self.y
 
 class Capacitor(Node):
 
@@ -47,8 +47,7 @@ class Capacitor(Node):
                 null
             ]
 
-    def left(self):
-        return self.x-1, self.y
-
-    def right(self):
-        return self.x+1, self.y
+    def ports(self):
+        return {
+                'left': (-1,0), 'right': (1,0)
+            }

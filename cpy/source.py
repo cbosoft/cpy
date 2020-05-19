@@ -1,4 +1,3 @@
-from cpy.util import null, circle
 from cpy.node import Node
 
 class Source(Node):

@@ -1,7 +1,7 @@
 import numpy as np
 
 from cpy.node import Node
-from cpy.util import circle, null
+from cpy.util import null
 from cpy.tikz import pts2path
 
 class Motor(Node):

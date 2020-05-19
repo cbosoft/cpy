@@ -1,6 +1,6 @@
 import numpy as np
 
-from cpy.util import trf, null, arrow, circle, arrowhead, angle_between
+from cpy.util import trf, null, arrowhead, angle_between
 from cpy.node import Node
 from cpy.tikz import pic
 

@@ -75,11 +75,21 @@ def arrow(start, length=None, end=None, rotation=0, inline=False, backwards=Fals
     x, y = trf(x, y, *start)
     return list(zip(x, y))
 
+def hop(centre, horizontal=False, backwards=False, offset=0.2):
 
     if horizontal:
+        before = (centre[0]-offset, centre[1])
+        after  = (centre[0]+offset, centre[1])
+    else:
+        before = (centre[0], centre[1]-offset)
+        after  = (centre[0], centre[1]+offset)
 
     if backwards:
+        rv = [after, null, before]
+    else:
+        rv = [before, null, after]
 
+    return rv
 
 def arrowhead(centre, rotation=0, tail=None):
     x, y = centre

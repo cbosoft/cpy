@@ -7,3 +7,6 @@ from cpy.light import *
 from cpy.transistor import *
 from cpy.dip import *
 from cpy.em import *
+from cpy.util import hop
+from cpy.header import *
+from cpy.sip import *

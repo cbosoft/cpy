@@ -10,7 +10,7 @@ def pts2path(points, opts=''):
     
     continuing = False
     for point in points:
-        if np.isnan(point[0]):
+        if np.any(np.isnan(point)):
             continuing = False
             continue
 

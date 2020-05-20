@@ -6,13 +6,34 @@ from cpy.tikz import pic
 
 class Node:
 
-    def __init__(self, x, y, rotation=0, label=None, value=None):
+    def __init__(self, x, y, rotation=0, label=None, value=None, scale=1.0, xscale=None, yscale=None, flipx=False, flipy=False, draw=None):
         self.x = x
         self.y = y
         self.angle = rotation
         self.plot_kws = {'color':'k'}
         self.label = label
         self.value = value
+
+        sc_x = scale
+        sc_y = scale
+
+        if xscale or yscale:
+            sc_x = xscale if xscale else 1.0
+            sc_y = yscale if yscale else 1.0
+
+        if flipx:
+            sc_x = -abs(sc_x)
+        if flipy:
+            sc_y = -abs(sc_y)
+
+        self.scale = (sc_x, sc_y)
+        if not draw:
+            draw = list()
+        elif isinstance(draw, str):
+            draw = [draw]
+        self.paths_override = draw
+
+
 
     def rot(self, x, y):
         return rot(x, y, self.angle)
@@ -40,15 +61,17 @@ class Node:
 
         assert len(rv) == 2
 
+        rv = np.multiply(self.scale, rv)
+
         return self.trot(*rv)
 
     def paths(self):
-        return []
+        return self.paths_override
 
     def draw(self):
         paths = self.paths()
 
-        pic().draw_paths_transformed(paths, shift=(self.x, self.y), rotation=(self.angle))
+        pic().draw_paths_transformed(paths, shift=(self.x, self.y), rotation=(self.angle), scale=self.scale)
 
         if self.label:
             self.draw_label()
@@ -57,7 +80,9 @@ class Node:
             self.draw_value()
 
     def draw_label(self):
-        pic().draw_text(self.x, self.y, self.label, anchor='center')
+        x, y = self.trot(0, 0.5)
+        pic().draw_text(x, y, self.label, anchor='center', rotation=self.angle)
 
     def draw_value(self):
-        pic().draw_text(self.x, self.y, self.value, anchor='center')
+        x, y = self.trot(0, -0.5)
+        pic().draw_text(x, y, self.value, anchor='center', rotation=self.angle)

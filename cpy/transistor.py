@@ -14,10 +14,12 @@ class _TransistorCommon(Node):
             ]
 
     def draw_label(self):
-        pic().draw_text(self.x+1.1, self.y+0.4, self.label)
+        x, y = self.trot(1.1, 0.4)
+        pic().draw_text(x, y, self.label)
 
     def draw_value(self):
-        pic().draw_text(self.x+1.1, self.y-0.4, self.value)
+        x, y = self.trot(1.1, -0.4)
+        pic().draw_text(x, y, self.value)
 
     def ports(self):
         return {

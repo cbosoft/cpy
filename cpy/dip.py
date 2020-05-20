@@ -2,7 +2,6 @@ import numpy as np
 
 from cpy.util import null
 from cpy.node import Node
-from cpy.tikz import pts2path
 
 class DIPn(Node):
 
@@ -29,27 +28,17 @@ class DIPn(Node):
     def paths(self):
 
         h = (self.n-1)/2
+        yb = self.w/2
         t = 0.5
 
-        pts = [
-                (-h,1),(-h-t,1),(-h-t,-1),(-h,-1),
-                (h,-1),(h+t,-1),(h+t,1),(h,1),(-h,1)
-            ]
+        paths = [f'\\draw ({-h-t},{yb}) rectangle ({h+t},{-yb});']
 
         for i in range(self.n):
-            pts.extend([
-                null,
-                (-h + i, 1), (-h + i, 1.5),
-                null,
-                ])
-            pts.extend([
-                null,
-                (-h + i, -1), (-h + i, -1.5),
-                null,
-                ])
+            paths.append(f'\\draw ({-h+i}, {yb}) -- ++ (0, 0.5);')
+            paths.append(f'\\draw ({-h+i},{-yb}) -- ++ (0,-0.5);')
 
-        paths = [pts2path(pts)]
-        paths.append(f'\\draw ({-h-t},0.2) arc(90:-90:0.2);')
+        if self.draw_semicircle:
+            paths.append(f'\\draw ({-h-t},0.2) arc(90:-90:0.2);')
         return paths
 
 

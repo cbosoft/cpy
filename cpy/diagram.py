@@ -1,6 +1,7 @@
 import numpy as np
-from cpy.tikz import pic
 
+from cpy.tikz import pic
+from cpy.node import Node
 
 class Diagram:
 
@@ -17,6 +18,8 @@ class Diagram:
         self.pic.save()
 
     def connect(self, *points, connection_type='-'):
+
+        points = [point[0] if isinstance(point, Node) else point for point in points]
 
         pts = list()
         for point, next_point in zip(points, points[1:]):

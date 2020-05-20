@@ -34,7 +34,8 @@ class TikzPicture:
             r'\renewcommand\familydefault\sfdefault',
             r'\usepackage{sansmath}\sansmath{}',
             r'\begin{document}',
-            r'\begin{tikzpicture}'
+            r'\begin{tikzpicture}',
+            r'\usetikzlibrary{decorations.pathreplacing}'
         ]
     tex_foot = [
             r'\end{tikzpicture}',

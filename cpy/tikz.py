@@ -61,7 +61,8 @@ class TikzPicture:
         path = f'{tmp_dir}/{name}'
         self.write_tex(f'{path}.tex')
         os.system(f'cd {tmp_dir} && pdflatex -interaction=nonstopmode {name}')
-        os.system(f'cp {path}.pdf {self.name}')
+        os.system(f'mv {path}.pdf {self.name}')
+        os.system(f'rm {path}*')
 
     def draw_points(self, points):
         self.paths.append(pts2path(points))

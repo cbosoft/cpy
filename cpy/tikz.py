@@ -70,10 +70,14 @@ class TikzPicture:
         for path in paths:
             self.paths.append(path)
 
-    def draw_paths_transformed(self, paths, shift=(0,0), rotation=0):
-        assert isinstance(shift, tuple)
-        sx, sy = shift
-        self.paths.append(r'\begin{scope}[shift={'+f'({sx},{sy})'+'}, rotate=' + f'{rotation}' + ']')
+    def draw_paths_transformed(self, paths, shift=(0,0), rotation=0, scale=(1.0,1.0)):
+        assert isinstance(shift, tuple) and len(shift) == 2
+        sh_x, sh_y = shift
+
+        assert isinstance(scale, tuple) and len(scale) == 2
+        sc_x, sc_y = scale
+
+        self.paths.append(r'\begin{scope}[shift={'+f'({sh_x},{sh_y})'+'}, rotate=' + f'{rotation}, xscale={sc_x}, yscale={sc_y}]')
         self.draw_paths(paths)
         self.paths.append(r'\end{scope}')
 

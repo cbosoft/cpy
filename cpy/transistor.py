@@ -52,7 +52,7 @@ class TransistorPNP(_TransistorCommon):
         return paths
 
 
-class PhotoTransistor(TransistorNPN):
+class PhotoTransistor(_TransistorCommon):
 
     def paths(self):
         paths = super().paths()

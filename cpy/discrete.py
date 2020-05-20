@@ -17,16 +17,18 @@ class Resistor(Node):
             }
 
     def draw_value(self):
-        y = self.y
+        py = 0
         if self.label:
-            y -= 0.25
-        pic().draw_text(self.x, y, self.value, anchor='center')
+            py -= 0.25
+        px, py = self.trot(0, py)
+        pic().draw_text(px, py, self.value, anchor='center', rotation=self.angle)
 
     def draw_label(self):
-        y = self.y
-        if self.value:
-            y += 0.25
-        pic().draw_text(self.x, y, self.label, anchor='center')
+        py = 0
+        if self.label:
+            py += 0.25
+        px, py = self.trot(0, py)
+        pic().draw_text(px, py, self.label, anchor='center', rotation=self.angle)
 
 
 class Capacitor(Node):

@@ -82,8 +82,8 @@ class TikzPicture:
         self.draw_paths(paths)
         self.paths.append(r'\end{scope}')
 
-    def draw_text(self, x, y, t, rotation=0, anchor='center', **kwargs):
-        self.paths.append(f'\\node [rotate={rotation},anchor={anchor}] (n) at ({x},{y}) {{\\LARGE {t}}};')
+    def draw_text(self, x, y, t, rotation=0, anchor='center', colour='black', default_size='LARGE', **kwargs):
+        self.paths.append(f'\\node [rotate={rotation},anchor={anchor},{colour}] (n) at ({x},{y}) {{\\{default_size} {t}}};')
 
 
 

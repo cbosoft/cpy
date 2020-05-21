@@ -2,6 +2,8 @@ import numpy as np
 
 import os
 
+from cpy.run import runsh
+
 def pts2path(points, opts=''):
     s = '\\draw '
 
@@ -60,9 +62,9 @@ class TikzPicture:
         name = 'tikdia'
         path = f'{tmp_dir}/{name}'
         self.write_tex(f'{path}.tex')
-        os.system(f'cd {tmp_dir} && pdflatex -interaction=nonstopmode {name}')
-        os.system(f'mv {path}.pdf {self.name}')
-        os.system(f'rm {path}*')
+        runsh([f'cd {tmp_dir} && pdflatex -interaction=nonstopmode {name}',
+            f'mv {path}.pdf {self.name}',
+            f'rm {path}*'])
 
     def draw_points(self, points):
         self.paths.append(pts2path(points))

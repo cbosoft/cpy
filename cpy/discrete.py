@@ -4,6 +4,11 @@ from cpy.tikz import pic
 
 class Resistor(Node):
 
+    def __init__(self, *args, south_label=False, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.south_label = south_label
+
     def paths(self):
         return [
                 '\\draw (-1.5,0.5) rectangle (1.5,-0.5);',
@@ -17,28 +22,27 @@ class Resistor(Node):
             }
 
     def draw_value(self):
-        py = 0
-        if self.label:
-            py -= 0.25
-        px, py = self.trot(0, py)
-        pic().draw_text(px, py, self.value, anchor='center', rotation=self.angle)
+        pic().draw_text(self.x, self.y, self.value, anchor='center', rotation=self.angle)
 
     def draw_label(self):
-        py = 0
-        if self.label:
-            py += 0.25
-        px, py = self.trot(0, py)
-        pic().draw_text(px, py, self.label, anchor='center', rotation=self.angle)
+
+        if self.south_label:
+            px, py = self.trot(0, -0.6)
+            a = 'north'
+        else:
+            px, py = self.trot(0, 0.6)
+            a = 'south'
+        pic().draw_text(px, py, self.label, anchor=a, rotation=self.angle)
 
 
 class Capacitor(Node):
 
     def paths(self):
         return [
-                '\\draw (-0.5,1) -- (-0.5,-1);',
-                '\\draw (0.5,1) -- (0.5,-1);',
-                '\\draw (-1,0) -- (-0.5,0);',
-                '\\draw (1,0) -- (0.5,0);'
+                '\\draw[thick] (-0.33,1) -- (-0.33,-1);',
+                '\\draw[thick] (0.33,1) -- (0.33,-1);',
+                '\\draw (-1,0) -- (-0.33,0);',
+                '\\draw (1,0) -- (0.33,0);'
             ]
 
     def ports(self):
@@ -47,4 +51,9 @@ class Capacitor(Node):
             }
 
     def draw_value(self):
-        pic().draw_text(self.x-1.5, self.y, self.value, anchor='center')
+        px, py = self.trot(0, -1)
+        pic().draw_text(px, py, self.value, anchor='north', rotation=self.angle)
+
+    def draw_label(self):
+        px, py = self.trot(0, 1)
+        pic().draw_text(px, py, self.label, anchor='south', rotation=self.angle)

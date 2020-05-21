@@ -2,7 +2,7 @@ import numpy as np
 
 from cpy.node import Node
 from cpy.util import null
-from cpy.tikz import pts2path
+from cpy.tikz import pts2path, pic
 
 class Motor(Node):
 
@@ -26,3 +26,7 @@ class Motor(Node):
                 'left':(-1.5,0),
                 'right':(1.5,0)
             }
+
+    def draw_label(self):
+        px, py = self.trot(0, 1.0)
+        pic().draw_text(px, py, self.label, anchor='south', rotation=self.angle)

@@ -19,4 +19,6 @@ class Diode(Node):
             ]
 
     def draw_label(self):
-        pic().draw_text(self.x, self.y+1.5, self.label)
+        angle = int(self.angle) % 180
+        px, py = rot(0, 1.5*abs(self.scale[1]), angle)
+        pic().draw_text(*self.trf(px, py), self.label, rotation=angle)

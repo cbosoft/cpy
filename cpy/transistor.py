@@ -14,12 +14,29 @@ class _TransistorCommon(Node):
             ]
 
     def draw_label(self):
-        x, y = self.trot(1.1, 0.4)
-        pic().draw_text(x, y, self.label)
+        if self.value:
+            x, y = self.trot(0.5, 0.4)
+        else:
+            x, y = self.trot(0.5, 0.0)
+
+        angle = int(self.angle) % 180
+        if angle > 0:
+            a = 'center'
+        else:
+            a = 'west'
+        pic().draw_text(x, y, self.label, anchor=a)
 
     def draw_value(self):
-        x, y = self.trot(1.1, -0.4)
-        pic().draw_text(x, y, self.value)
+        if self.label:
+            x, y = self.trot(0.5, -0.4)
+        else:
+            x, y = self.trot(0.5, 0.0)
+        angle = int(self.angle) % 180
+        if angle > 0:
+            a = 'center'
+        else:
+            a = 'west'
+        pic().draw_text(x, y, self.value, anchor=a)
 
     def ports(self):
         return {

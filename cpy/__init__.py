@@ -10,3 +10,4 @@ from cpy.em import *
 from cpy.util import hop
 from cpy.header import *
 from cpy.sip import *
+from cpy.group import *

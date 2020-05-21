@@ -22,7 +22,19 @@ class Diagram:
         points = [point[0] if isinstance(point, Node) else point for point in points]
 
         pts = list()
-        for point, next_point in zip(points, points[1:]):
+        for i, (point, next_point) in enumerate(zip(points, points[1:])):
+            if isinstance(point, str):
+                connection_type = point
+                continue
+
+            if isinstance(next_point, str):
+                connection_type = next_point
+            
+            j = i+1
+            while isinstance(next_point, str):
+                j += 1
+                next_point = points[j]
+
             pts.append(point)
             if connection_type == '-|':
                 pts.append([next_point[0], point[1]])

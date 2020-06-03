@@ -93,6 +93,6 @@ t = None
 
 def pic(name=None):
     global t
-    if not t:
+    if not t or name:
         t = TikzPicture(name)
     return t
